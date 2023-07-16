@@ -19,8 +19,6 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
-    env:
-      BUILD_DIRECTORY_PATH: ${{ github.workspace }}/_build
     steps:
     - uses: actions/checkout@v3
     
@@ -34,13 +32,13 @@ jobs:
       run: dotnet restore *.sln
       
     - name: Build project
-      run: dotnet build *.sln --no-restore -c Release -o $BUILD_DIRECTORY_PATH
+      run: dotnet build *.sln --no-restore -c Release
       
     - name: Publish build artifacts
       uses: actions/upload-artifact@v3
       with:
         name: build
-        path: ${{ env.BUILD_DIRECTORY_PATH }}
+        path: ${{ github.workspace }}
         if-no-files-found: error
         
   test:
