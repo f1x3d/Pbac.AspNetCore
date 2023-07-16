@@ -53,7 +53,7 @@ jobs:
         path: ${{ github.workspace }}
     
     - name: Run tests
-      run: dotnet test *.sln --no-build
+      run: dotnet test *.sln --no-build -c Release
   
   publish:
     name: Publish
@@ -74,7 +74,7 @@ jobs:
         dotnet-quality: ${{ env.DOTNET_QUALITY }}
     
     - name: Pack
-      run: dotnet pack *.sln --no-build
+      run: dotnet pack *.sln --no-build -c Release
         
     - name: Publish to NuGet.org
       run: dotnet nuget push **/*.nupkg -k $NUGET_API_KEY -s https://api.nuget.org/v3/index.json
