@@ -2,11 +2,11 @@ name: CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ 'main' ]
   pull_request:
-    branches: [ "*" ]
+    branches: [ '*' ]
   release:
-    types: [ "released" ]
+    types: [ 'released' ]
 
 env:
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
@@ -59,7 +59,7 @@ jobs:
   
   publish:
     name: Publish
-    if: github.event_name == "release"
+    if: github.event_name == 'release'
     needs: [ test ]
     runs-on: ubuntu-latest
     steps:
