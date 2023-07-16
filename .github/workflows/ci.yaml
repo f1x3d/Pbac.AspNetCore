@@ -21,26 +21,29 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    
+
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: ${{ env.DOTNET_VERSION }}
         dotnet-quality: ${{ env.DOTNET_QUALITY }}
-        
+
     - name: Restore dependencies
       run: dotnet restore *.sln
-      
+
     - name: Build project
       run: dotnet build *.sln --no-restore -c Release
-      
+
+    - name: Pack
+      run: dotnet pack *.sln --no-build -c Release
+
     - name: Publish build artifacts
       uses: actions/upload-artifact@v3
       with:
         name: build
         path: ${{ github.workspace }}
         if-no-files-found: error
-        
+
   test:
     name: Test
     needs: [ build ]
@@ -51,10 +54,10 @@ jobs:
       with:
         name: build
         path: ${{ github.workspace }}
-    
+
     - name: Run tests
       run: dotnet test *.sln --no-build -c Release
-  
+
   publish:
     name: Publish
     if: github.event_name == 'release'
@@ -66,16 +69,13 @@ jobs:
       with:
         name: build
         path: ${{ github.workspace }}
-        
+
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: ${{ env.DOTNET_VERSION }}
         dotnet-quality: ${{ env.DOTNET_QUALITY }}
-    
-    - name: Pack
-      run: dotnet pack *.sln --no-build -c Release
-        
+
     - name: Publish to NuGet.org
       run: dotnet nuget push **/*.nupkg -k $NUGET_API_KEY -s https://api.nuget.org/v3/index.json
       env:

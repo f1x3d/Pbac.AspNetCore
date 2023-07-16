@@ -6,7 +6,6 @@
     <LangVersion>latest</LangVersion>
     <ImplicitUsings>enable</ImplicitUsings>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <DebugType>embedded</DebugType>
   </PropertyGroup>
 
   <PropertyGroup>
