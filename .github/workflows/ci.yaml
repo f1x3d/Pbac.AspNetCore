@@ -1,0 +1,84 @@
+name: CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "*" ]
+  release:
+    types: [ "released" ]
+
+env:
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+  DOTNET_NOLOGO: true
+  DOTNET_VERSION: 7.x
+  DOTNET_QUALITY: ga
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    env:
+      BUILD_DIRECTORY_PATH: ${{ github.workspace }}/_build
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+        dotnet-quality: ${{ env.DOTNET_QUALITY }}
+        
+    - name: Restore dependencies
+      run: dotnet restore
+      
+    - name: Build project
+      run: dotnet build --no-restore -c Release -o $BUILD_DIRECTORY_PATH
+      
+    - name: Publish build artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: build
+        path: ${{ env.BUILD_DIRECTORY_PATH }}
+        if-no-files-found: error
+        
+  test:
+    name: Test
+    needs: [ build ]
+    runs-on: ubuntu-latest
+    steps:
+    - name: Download build artifacts
+      uses: actions/download-artifact@v3
+      with:
+        name: build
+        path: ${{ github.workspace }}
+    
+    - name: Run tests
+      run: dotnet test --no-build
+  
+  publish:
+    name: Publish
+    if: github.event_name == "release"
+    needs: [ test ]
+    runs-on: ubuntu-latest
+    steps:
+    - name: Download build artifacts
+      uses: actions/download-artifact@v3
+      with:
+        name: build
+        path: ${{ github.workspace }}
+        
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+        dotnet-quality: ${{ env.DOTNET_QUALITY }}
+    
+    - name: Pack
+      run: dotnet pack --no-build
+        
+    - name: Publish to NuGet.org
+      run: dotnet nuget push **/*.nupkg -k $NUGET_API_KEY -s https://api.nuget.org/v3/index.json
+      env:
+        NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
