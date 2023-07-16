@@ -1,5 +1,7 @@
 ﻿# Pbac.AspNetCore
 
+[![NuGet](https://img.shields.io/nuget/v/Pbac.AspNetCore)](https://nuget.org/packages/Pbac.AspNetCore)
+
 ## Description
 
 A helper library for implementing the [permission/attribute based access control (ABAC)](https://en.wikipedia.org/wiki/Attribute-based_access_control) with [JSON web tokens](https://en.wikipedia.org/wiki/JSON_Web_Token) using the ASP.NET Core's [policy-based access control (PBAC)](https://learn.microsoft.com/en-us/aspnet/core/security/authorization/policies).
