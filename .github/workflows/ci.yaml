@@ -31,10 +31,10 @@ jobs:
         dotnet-quality: ${{ env.DOTNET_QUALITY }}
         
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore *.sln
       
     - name: Build project
-      run: dotnet build --no-restore -c Release -o $BUILD_DIRECTORY_PATH
+      run: dotnet build *.sln --no-restore -c Release -o $BUILD_DIRECTORY_PATH
       
     - name: Publish build artifacts
       uses: actions/upload-artifact@v3
@@ -55,7 +55,7 @@ jobs:
         path: ${{ github.workspace }}
     
     - name: Run tests
-      run: dotnet test --no-build
+      run: dotnet test *.sln --no-build
   
   publish:
     name: Publish
@@ -76,7 +76,7 @@ jobs:
         dotnet-quality: ${{ env.DOTNET_QUALITY }}
     
     - name: Pack
-      run: dotnet pack --no-build
+      run: dotnet pack *.sln --no-build
         
     - name: Publish to NuGet.org
       run: dotnet nuget push **/*.nupkg -k $NUGET_API_KEY -s https://api.nuget.org/v3/index.json
