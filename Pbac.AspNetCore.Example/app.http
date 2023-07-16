@@ -1,0 +1,23 @@
+# For more info on HTTP files go to https://aka.ms/vs/httpfile
+
+@baseUri = https://localhost:7207
+@noPermissionsJwt = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJtaXNzaW9ucyI6IiIsIm5iZiI6MTY4Nzk4NzYzNSwiZXhwIjozMzI0NDg5NjQzNSwiaWF0IjoxNjg3OTg3NjM1LCJpc3MiOiJodHRwOi8vbG9jYWxob3N0IiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdCJ9.qfh1zyYKhDFLCVKk8KwFCbuLmpHDLmFq_2v6xHKOmAU
+@readPermissionJwt = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJtaXNzaW9ucyI6IjEiLCJuYmYiOjE2ODc5ODc2MDcsImV4cCI6MzMyNDQ4OTY0MDcsImlhdCI6MTY4Nzk4NzYwNywiaXNzIjoiaHR0cDovL2xvY2FsaG9zdCIsImF1ZCI6Imh0dHA6Ly9sb2NhbGhvc3QifQ.JBcDVdhBKiEPNGJNbzVBurpuoQSE7Gloaej1l_IdPkw
+@deletePermissionJwt = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJtaXNzaW9ucyI6IjIiLCJuYmYiOjE2ODc5ODc2MjIsImV4cCI6MzMyNDQ4OTY0MjIsImlhdCI6MTY4Nzk4NzYyMiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdCIsImF1ZCI6Imh0dHA6Ly9sb2NhbGhvc3QifQ.QXS5wr5ict-liC_oQcguN4ZYw-5FOkewnlNe-Juvoyc
+@allPermissionsJwt = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJtaXNzaW9ucyI6IjMiLCJuYmYiOjE2ODc5ODc1OTQsImV4cCI6MzMyNDQ4OTYzOTQsImlhdCI6MTY4Nzk4NzU5NCwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdCIsImF1ZCI6Imh0dHA6Ly9sb2NhbGhvc3QifQ.oHVaw05HrXdoDBjRChCLSm9Hee94Y_9NkEL9TNoaxLc
+
+###
+
+GET {{baseUri}}/jwt?permissions=ReadEntity&permissions=DeleteEntity
+
+###
+
+GET {{baseUri}}/entity
+Authorization: Bearer {{readPermissionJwt}}
+
+###
+
+DELETE {{baseUri}}/entity
+Authorization: Bearer {{readPermissionJwt}}
+
+###

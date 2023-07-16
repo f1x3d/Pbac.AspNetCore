@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.Build.NoTargets/3.7.0">
+
+  <!-- https://github.com/microsoft/MSBuildSdks/tree/main/src/NoTargets -->
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove=".git/**;.vs/**;obj/**;*.sln;_misc.csproj;Pbac.AspNetCore*/**" />
+  </ItemGroup>
+
+</Project>
