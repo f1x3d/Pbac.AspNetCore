@@ -77,12 +77,18 @@ jobs:
         dotnet-quality: ${{ env.DOTNET_QUALITY }}
 
     - name: Publish to NuGet.org
-      run: dotnet nuget push **/*.nupkg -k $NUGET_API_KEY -s https://api.nuget.org/v3/index.json
+      run: dotnet nuget push **/*.nupkg -k $NUGET_API_KEY -s https://api.nuget.org/v3/index.json --skip-duplicate
       env:
         NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
 
-    - name: Publish to GitHub Packages
-      run: dotnet nuget push **/*.nupkg -k $GITHUB_TOKEN -s $FEED_SOURCE
+    - name: Add the GitHub Packages source
+      run: dotnet nuget add source --username $GITHUB_USERNAME --password $GITHUB_TOKEN --store-password-in-clear-text --name github "$FEED_SOURCE"
       env:
+        GITHUB_USERNAME: ${{ github.repository_owner }}
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         FEED_SOURCE: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
+
+    - name: Publish to GitHub Packages
+      run: dotnet nuget push **/*.nupkg -k $GITHUB_TOKEN -s "github" --skip-duplicate
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
