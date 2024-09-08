@@ -1,6 +1,6 @@
 ﻿# Pbac.AspNetCore
 
-[![NuGet](https://img.shields.io/nuget/v/Pbac.AspNetCore)](https://nuget.org/packages/Pbac.AspNetCore)
+[![NuGet](https://img.shields.io/nuget/v/Pbac.AspNetCore?logo=nuget&label=NuGet)](https://nuget.org/packages/Pbac.AspNetCore)
 
 ## Description
 
