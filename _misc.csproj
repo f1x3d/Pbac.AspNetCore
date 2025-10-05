@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove=".git/**;.vs/**;obj/**;*.sln;_misc.csproj;Pbac.AspNetCore*/**" />
+    <None Remove=".git/**;.vs/**;obj/**;*.slnx;_misc.csproj;Pbac.AspNetCore*/**" />
   </ItemGroup>
 
 </Project>

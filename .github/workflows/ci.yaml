@@ -12,7 +12,9 @@ env:
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
   DOTNET_CLI_TELEMETRY_OPTOUT: true
   DOTNET_NOLOGO: true
-  DOTNET_VERSION: 7.x
+  DOTNET_VERSION: |
+    7.x
+    9.0.3xx
   DOTNET_QUALITY: ga
 
 jobs:
@@ -29,13 +31,13 @@ jobs:
         dotnet-quality: ${{ env.DOTNET_QUALITY }}
 
     - name: Restore dependencies
-      run: dotnet restore *.sln
+      run: dotnet restore *.slnx
 
     - name: Build project
-      run: dotnet build *.sln --no-restore -c Release
+      run: dotnet build *.slnx --no-restore -c Release
 
     - name: Pack
-      run: dotnet pack *.sln --no-build -c Release
+      run: dotnet pack *.slnx --no-build -c Release
 
     - name: Publish build artifacts
       uses: actions/upload-artifact@v4
@@ -55,8 +57,14 @@ jobs:
         name: build
         path: ${{ github.workspace }}
 
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+        dotnet-quality: ${{ env.DOTNET_QUALITY }}
+
     - name: Run tests
-      run: dotnet test *.sln --no-build -c Release
+      run: dotnet test *.slnx --no-build -c Release
 
   publish:
     name: Publish
