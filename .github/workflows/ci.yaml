@@ -73,6 +73,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       packages: write
+      id-token: write
     steps:
     - name: Download build artifacts
       uses: actions/download-artifact@v4
@@ -86,10 +87,14 @@ jobs:
         dotnet-version: ${{ env.DOTNET_VERSION }}
         dotnet-quality: ${{ env.DOTNET_QUALITY }}
 
+    - name: Get NuGet.org API key
+      uses: NuGet/login@v1
+      id: nuget-login
+      with:
+        user: ${{ vars.NUGET_USER }}
+
     - name: Publish to NuGet.org
-      run: dotnet nuget push **/*.nupkg -k $NUGET_API_KEY -s https://api.nuget.org/v3/index.json --skip-duplicate
-      env:
-        NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+      run: dotnet nuget push **/*.nupkg -k ${{ steps.nuget-login.outputs.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json --skip-duplicate
 
     - name: Add the GitHub Packages source
       run: dotnet nuget add source --username $GITHUB_USERNAME --password $GITHUB_TOKEN --store-password-in-clear-text --name github "$FEED_SOURCE"
