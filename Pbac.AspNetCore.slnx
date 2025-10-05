@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="Pbac.AspNetCore.Benchmarks/Pbac.AspNetCore.Benchmarks.csproj" />
+  <Project Path="Pbac.AspNetCore.Example/Pbac.AspNetCore.Example.csproj" />
+  <Project Path="Pbac.AspNetCore.Tests/Pbac.AspNetCore.Tests.csproj" />
+  <Project Path="Pbac.AspNetCore/Pbac.AspNetCore.csproj" />
+  <Project Path="_misc.csproj" />
+</Solution>
